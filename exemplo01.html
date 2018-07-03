@@ -16,6 +16,9 @@
         border-style: solid;
         border-width: 1px;
       }
+      td span{
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
@@ -49,7 +52,7 @@
           <th>N3</th>
         </thead>
         <tbody>
-          
+
         </tbody>
       </table>
 
@@ -68,8 +71,29 @@
           var tr = document.createElement("tr");
           tbody.appendChild(tr);
           var tdNumero = document.createElement("td");
-          tdNumero.textContent = i;
+
+          var spanId = document.createElement("span");
+          var spanEdit = document.createElement("span");
+          var spanDelete = document.createElement("span");
+          spanId.textContent = i;
+          spanEdit.innerHTML= "&#x1f589";
+          spanDelete.innerHTML ="&#x1f5d1";
+
           tr.appendChild(tdNumero);
+          tdNumero.appendChild(spanId);
+          tdNumero.appendChild(spanEdit);
+          tdNumero.appendChild(spanDelete);
+
+          spanDelete.addEventListener("click",
+          (function(x){
+            return  function(){
+                console.log("lixo clicado " +x);
+                notas.splice(x,1);
+                apresentaDados();
+              }
+            })(i)
+        );
+
           i++;
 
           tbody.appendChild(tr);
@@ -94,7 +118,22 @@
 
         }
       }
+      document.dados.addEventListener("submit",enviarFormulario);
 
+      function criaAluno(){
+        var nome = document.dados.nome.value;
+        var n1 = document.dados.n1.value;
+        var n2 = document.dados.n2.value;
+        var n3 = document.dados.n3.value;
+        document.dados.reset();
+        notas.push({nome:nome,n1: n1,n2:n2,n3:n3});
+        apresentaDados();
+      }
+
+      function enviarFormulario(e){
+        e.preventDefault();
+        criaAluno();
+      }
     </script>
   </body>
 </html>
