@@ -24,24 +24,25 @@
   <body>
     <h1>Exemplo 08</h1>
     <form name="dados">
+      <input type="hidden" name="posicao" value=""/>
       <div>
           <label>Nome:</label>
-          <input type="text" name="nome" placeholder="Nome">
+          <input type="text" name="nome" placeholder="Nome"/>
       </div>
       <div>
           <label>N1:</label>
-          <input type="number" name="n1" placeholder="Nome">
+          <input type="number" name="n1" placeholder="Nome"/>
       </div>
       <div>
           <label>N2:</label>
-          <input type="number" name="n2" placeholder="Nome">
+          <input type="number" name="n2" placeholder="Nome"/>
       </div>
       <div>
           <label>N3:</label>
-          <input type="number" name="n3" placeholder="Nome">
+          <input type="number" name="n3" placeholder="Nome"/>
       </div>
       <div>
-        <input type="submit" name="adicionar" value="Adicionar">
+        <input type="submit" name="adicionar" value="Adicionar"/>
       </div>
       <table>
         <thead>
@@ -62,6 +63,7 @@
         {nome:"Fulado",n1:0,n2:0,n3:0},
         {nome:"Fulado2",n1:0,n2:0,n3:0}
       ];
+      limpaFormulario();
       apresentaDados();
       function apresentaDados(){
         var tbody = document.querySelector("tbody");
@@ -84,15 +86,24 @@
           tdNumero.appendChild(spanEdit);
           tdNumero.appendChild(spanDelete);
 
-          spanDelete.addEventListener("click",
-          (function(x){
+          spanDelete.addEventListener("click",(function(x){
             return  function(){
                 console.log("lixo clicado " +x);
                 notas.splice(x,1);
                 apresentaDados();
               }
-            })(i)
-        );
+            })(i));
+          spanEdit.addEventListener("click",(function(x){
+              return  function(){
+                  console.log("lapis clicado " +x);
+                  document.dados.nome.value=notas[x].nome;
+                  document.dados.n1.value=notas[x].n1;
+                  document.dados.n2.value=notas[x].n2;
+                  document.dados.n3.value=notas[x].n3;
+                  document.dados.posicao.value=x;
+                  document.dados.adicionar.value="Salvar";
+                }
+              })(i));
 
           i++;
 
@@ -121,18 +132,41 @@
       document.dados.addEventListener("submit",enviarFormulario);
 
       function criaAluno(){
+
         var nome = document.dados.nome.value;
         var n1 = document.dados.n1.value;
         var n2 = document.dados.n2.value;
         var n3 = document.dados.n3.value;
-        document.dados.reset();
+        limpaFormulario();
         notas.push({nome:nome,n1: n1,n2:n2,n3:n3});
         apresentaDados();
       }
 
+      function limpaFormulario(){
+        document.dados.reset();
+        document.dados.posicao.value="";
+        document.dados.adicionar.value="Adicionar"
+      }
+      function salvarAluno(){
+            var posicao = document.dados.posicao.value;
+            var nome = document.dados.nome.value;
+            var n1 = document.dados.n1.value;
+            var n2 = document.dados.n2.value;
+            var n3 = document.dados.n3.value;
+            limpaFormulario();
+            notas[posicao]={nome:nome,n1: n1,n2:n2,n3:n3};
+            apresentaDados();
+
+      }
+
       function enviarFormulario(e){
         e.preventDefault();
-        criaAluno();
+        if(document.dados.posicao.value == ""){
+          criaAluno();
+        } else{
+          salvarAluno();
+        }
+
       }
     </script>
   </body>
