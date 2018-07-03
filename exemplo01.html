@@ -48,9 +48,53 @@
           <th>N2</th>
           <th>N3</th>
         </thead>
+        <tbody>
+          
+        </tbody>
       </table>
 
     </form>
+    <script>
+      var notas = [
+        {nome:"Fulado",n1:0,n2:0,n3:0},
+        {nome:"Fulado2",n1:0,n2:0,n3:0}
+      ];
+      apresentaDados();
+      function apresentaDados(){
+        var tbody = document.querySelector("tbody");
+        tbody.innerHTML = "";
+        var i = 0;
+        for(aluno of notas){
+          var tr = document.createElement("tr");
+          tbody.appendChild(tr);
+          var tdNumero = document.createElement("td");
+          tdNumero.textContent = i;
+          tr.appendChild(tdNumero);
+          i++;
 
+          tbody.appendChild(tr);
+          var tdNome = document.createElement("td");
+          tdNome.textContent = aluno.nome
+          tr.appendChild(tdNome);
+
+          tbody.appendChild(tr);
+          var tdn1 = document.createElement("td");
+          tdn1.textContent = aluno.n1;
+          tr.appendChild(tdn1);
+
+          tbody.appendChild(tr);
+          var tdn2 = document.createElement("td");
+          tdn2.textContent =  aluno.n2;
+          tr.appendChild(tdn2);
+
+          tbody.appendChild(tr);
+          var tdn3 = document.createElement("td");
+          tdn3.textContent =  aluno.n3;
+          tr.appendChild(tdn3);
+
+        }
+      }
+
+    </script>
   </body>
 </html>
